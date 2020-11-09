@@ -12,7 +12,7 @@ import {
   NQ,
   NQ_NAME,
   REF,
-  spec,
+  specFactory,
   SUB_ID
 } from '../../../modules/nanointeractiveBidAdapter.js';
 
@@ -51,7 +51,7 @@ describe('nanointeractive adapter tests', function () {
   }
 
   describe('NanoAdapter', function () {
-    let nanoBidAdapter = spec;
+    let nanoBidAdapter = specFactory();
 
     describe('Methods', function () {
       it('Test isBidRequestValid with valid param(s) nid', function() {

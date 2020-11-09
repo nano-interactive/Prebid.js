@@ -3,11 +3,8 @@ import {config} from '../src/config.js';
 import {registerBidder} from '../src/adapters/bidderFactory.js';
 import { getStorageManager } from '../src/storageManager.js';
 
-const storage = getStorageManager();
-
 export const BIDDER_CODE = 'nanointeractive';
 export const END_POINT_URL = 'https://ad.audiencemanager.de';
-
 export const SSP_PLACEMENT_ID = 'pid';
 export const SSP_NETWORK_ID = 'nid';
 export const NQ = 'nq';
@@ -20,19 +17,18 @@ export const LOCATION = 'loc';
 
 let nanoPid = '5a1ec660eb0a191dfa591172';
 
-export const spec = {
-
+export const specFactory = () => ({
   code: BIDDER_CODE,
   aliases: ['ni'],
 
-  isBidRequestValid(bid) {
+  isBidRequestValid: bid => {
     const pid = bid.params[SSP_PLACEMENT_ID];
     const nid = bid.params[SSP_NETWORK_ID];
 
     return !!pid || !!nid;
   },
 
-  buildRequests(validBidRequests, bidderRequest) {
+  buildRequests: (validBidRequests, bidderRequest) => {
     const payload = validBidRequests.map(bid => createSingleBidRequest(bid, bidderRequest));
     const url = getEndpointUrl() + '/hb';
 
@@ -42,12 +38,10 @@ export const spec = {
       data: JSON.stringify(payload)
     };
   },
-  interpretResponse(serverResponse) {
-    return serverResponse.body
-      .filter(serverBid => isEngineResponseValid(serverBid))
-      .map(serverBid => createSingleBidResponse(serverBid));
-  },
-  getUserSyncs: function(syncOptions) {
+  interpretResponse: serverResponse => serverResponse.body
+    .filter(serverBid => isEngineResponseValid(serverBid))
+    .map(serverBid => createSingleBidResponse(serverBid)),
+  getUserSyncs: syncOptions => {
     const syncs = [];
     if (syncOptions.iframeEnabled) {
       syncs.push({
@@ -64,9 +58,9 @@ export const spec = {
     }
     return syncs;
   }
-};
+});
 
-function createSingleBidRequest(bid, bidderRequest) {
+const createSingleBidRequest = (bid, bidderRequest) => {
   const location = utils.deepAccess(bidderRequest, 'refererInfo.referer');
   const origin = utils.getOrigin();
 
@@ -94,18 +88,19 @@ function createSingleBidRequest(bid, bidderRequest) {
   return data;
 }
 
-function createSSPNetworkIdParam(bid) {
+const createSSPNetworkIdParam = bid => {
   return bid.params[SSP_NETWORK_ID] ? bid.params[SSP_NETWORK_ID] : null;
 }
 
-function createSSPPlacementId(bid) {
+const createSSPPlacementId = bid => {
   return bid.params[SSP_PLACEMENT_ID] ? bid.params[SSP_PLACEMENT_ID] : null;
 }
 
-function createSingleBidResponse(serverBid) {
+const createSingleBidResponse = serverBid => {
   if (serverBid.userId) {
-    storage.setDataInLocalStorage('lsUserId', serverBid.userId);
+    getStorageManager().setDataInLocalStorage('lsUserId', serverBid.userId);
   }
+
   return {
     requestId: serverBid.id,
     cpm: serverBid.cpm,
@@ -119,19 +114,19 @@ function createSingleBidResponse(serverBid) {
   };
 }
 
-function createNqParam(bid) {
+const createNqParam = bid => {
   return bid.params[NQ_NAME] ? utils.getParameterByName(bid.params[NQ_NAME]) : bid.params[NQ] || null;
 }
 
-function createCategoryParam(bid) {
+const createCategoryParam = bid => {
   return bid.params[CATEGORY_NAME] ? utils.getParameterByName(bid.params[CATEGORY_NAME]) : bid.params[CATEGORY] || null;
 }
 
-function createSubIdParam(bid) {
+const createSubIdParam = bid => {
   return bid.params[SUB_ID] || null;
 }
 
-function createRefParam() {
+const createRefParam = () => {
   try {
     return window.top.document.referrer;
   } catch (ex) {
@@ -139,7 +134,7 @@ function createRefParam() {
   }
 }
 
-function isEngineResponseValid(response) {
+const isEngineResponseValid = response => {
   return !!response.cpm && !!response.ad;
 }
 
@@ -148,16 +143,15 @@ function isEngineResponseValid(response) {
  *
  * @returns string
  */
-function getEndpointUrl() {
+const getEndpointUrl = () => {
   const nanoConfig = config.getConfig('nano');
   return (nanoConfig && nanoConfig['endpointUrl']) || END_POINT_URL;
 }
 
-function getLsUserId() {
-  if (storage.getDataFromLocalStorage('lsUserId') != null) {
-    return storage.getDataFromLocalStorage('lsUserId');
-  }
-  return null;
+const getLsUserId = () => {
+  const lsUserId = getStorageManager().getDataFromLocalStorage('lsUserId');
+
+  return lsUserId || null;
 }
 
-registerBidder(spec);
+registerBidder(specFactory());
