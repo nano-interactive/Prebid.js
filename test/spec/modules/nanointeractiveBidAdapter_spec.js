@@ -7,6 +7,7 @@ import {
   CATEGORY,
   CATEGORY_NAME,
   SSP_PLACEMENT_ID,
+  SSP_NETWORK_ID,
   END_POINT_URL,
   NQ,
   NQ_NAME,
@@ -20,6 +21,7 @@ describe('nanointeractive adapter tests', function () {
   const BID_ID_PARAM = 'bidId';
   const BID_ID_VALUE = '24a1c9ec270973';
   const DATA_PARTNER_PIXEL_ID_VALUE = 'testPID';
+  const DATA_PARTNER_NETWORK_ID_VALUE = 'testNID';
   const NQ_VALUE = 'rumpelstiltskin';
   const NQ_NAME_QUERY_PARAM = 'nqName';
   const CATEGORY_VALUE = 'some category';
@@ -52,102 +54,122 @@ describe('nanointeractive adapter tests', function () {
     let nanoBidAdapter = spec;
 
     describe('Methods', function () {
-      it('Test isBidRequestValid() with valid param(s): pid', function () {
+      it('Test isBidRequestValid with valid param(s) nid', function() {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
+        }))).to.equal(true);
+      });
+      it('Test isBidRequestValid() with valid param(s): nid, pid', function () {
+        expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nq', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nq', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ]: NQ,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nq, category', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nq, category', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ]: NQ,
           [CATEGORY]: CATEGORY_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nq, categoryName', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nq, categoryName', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ]: NQ,
           [CATEGORY_NAME_QUERY_PARAM]: CATEGORY_NAME_QUERY_PARAM,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nq, subId', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nq, subId', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ]: NQ,
           [SUB_ID]: SUB_ID_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nqName', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nqName', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ_NAME]: NQ_NAME_QUERY_PARAM,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nqName, category', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nqName, category', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ_NAME]: NQ_NAME_QUERY_PARAM,
           [CATEGORY]: CATEGORY_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nqName, categoryName', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nqName, categoryName', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ_NAME]: NQ_NAME_QUERY_PARAM,
           [CATEGORY_NAME_QUERY_PARAM]: CATEGORY_NAME_QUERY_PARAM,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nqName, subId', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nqName, subId', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ_NAME]: NQ_NAME_QUERY_PARAM,
           [SUB_ID]: SUB_ID_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, category', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, category', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, category, subId', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, category, subId', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
           [SUB_ID]: SUB_ID_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, subId', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, subId', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [SUB_ID]: SUB_ID_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nq, category, subId', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nq, category, subId', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ]: NQ_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
           [SUB_ID]: SUB_ID_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nqName, categoryName, subId', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nqName, categoryName, subId', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ_NAME]: NQ_NAME_QUERY_PARAM,
           [CATEGORY_NAME]: CATEGORY_NAME_QUERY_PARAM,
           [SUB_ID]: SUB_ID_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nq, category, subId, ref (value none)', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nq, category, subId, ref (value none)', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ]: NQ_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
@@ -155,8 +177,9 @@ describe('nanointeractive adapter tests', function () {
           [REF]: REF_NO_VALUE,
         }))).to.equal(true);
       });
-      it('Test isBidRequestValid() with valid param(s): pid, nq, category, subId, ref (value other)', function () {
+      it('Test isBidRequestValid() with valid param(s): nid, pid, nq, category, subId, ref (value other)', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
           [NQ]: NQ_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
@@ -164,10 +187,26 @@ describe('nanointeractive adapter tests', function () {
           [REF]: REF_OTHER_VALUE,
         }))).to.equal(true);
       });
+      it('Test isBidRequestValid() with valid param(s): pid missing, nid filled', function () {
+        expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
+          [NQ]: NQ_VALUE,
+          [CATEGORY]: CATEGORY_VALUE,
+          [SUB_ID]: SUB_ID_VALUE,
+        }))).to.equal(true);
+      });
+      it('Test isBidRequestValid() with valid param(s): pid filled, nid missing', function() {
+        expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
+          [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [NQ]: NQ_VALUE,
+          [CATEGORY]: CATEGORY_VALUE,
+          [SUB_ID]: SUB_ID_VALUE,
+        }))).to.equal(true);
+      });
       it('Test isBidRequestValid() with invalid param(s): empty', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({}))).to.equal(false);
       });
-      it('Test isBidRequestValid() with invalid param(s): pid missing', function () {
+      it('Test isBidRequestValid() with invalid param(s): pid and nid missing', function () {
         expect(nanoBidAdapter.isBidRequestValid(getBidRequest({
           [NQ]: NQ_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
@@ -206,6 +245,7 @@ describe('nanointeractive adapter tests', function () {
       function assert(
         request,
         expectedPid,
+        expectedNid,
         expectedNq,
         expectedCategory,
         expectedSubId
@@ -215,6 +255,7 @@ describe('nanointeractive adapter tests', function () {
         expect(request.method).to.equal('POST');
         expect(request.url).to.equal(END_POINT_URL + '/hb');
         expect(requestData[0].pid).to.equal(expectedPid);
+        expect(requestData[0].nid).to.equal(expectedNid);
         expect(requestData[0].nq.toString()).to.equal(expectedNq.toString());
         expect(requestData[0].category.toString()).to.equal(expectedCategory.toString());
         expect(requestData[0].subId).to.equal(expectedSubId);
@@ -224,172 +265,230 @@ describe('nanointeractive adapter tests', function () {
         sandbox.restore();
       }
 
+      it('Test buildRequest() - nid', function() {
+        setUpMocks();
+
+        const requestParams = {
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
+        };
+        const expectedPid = null;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [null];
+        const expectedCategory = [null];
+        const expectedSubId = null;
+
+        const request = nanoBidAdapter.buildRequests([
+          getBidRequest(requestParams),
+        ]);
+
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
+        tearDownMocks();
+      });
+
       it('Test buildRequest() - pid', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [null];
-        let expectedCategory = [null];
-        let expectedSubId = null;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = null;
+        const expectedNq = [null];
+        const expectedCategory = [null];
+        const expectedSubId = null;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, nq', function () {
+      it('Test buildRequest() - pid, nid, nq', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [NQ]: NQ_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [NQ_VALUE];
-        let expectedCategory = [null];
-        let expectedSubId = null;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [NQ_VALUE];
+        const expectedCategory = [null];
+        const expectedSubId = null;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, nq, category', function () {
+      it('Test buildRequest() - pid, nid, nq, category', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [NQ]: NQ_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [NQ_VALUE];
-        let expectedCategory = [CATEGORY_VALUE];
-        let expectedSubId = null;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [NQ_VALUE];
+        const expectedCategory = [CATEGORY_VALUE];
+        const expectedSubId = null;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, nq, categoryName', function () {
+      it('Test buildRequest() - pid, nid, nq, categoryName', function () {
         setUpMocks();
 
-        let requestParams = {
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [NQ]: NQ_VALUE,
           [CATEGORY_NAME]: CATEGORY_NAME_QUERY_PARAM,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [NQ_VALUE];
-        let expectedCategory = [CATEGORY_VALUE];
-        let expectedSubId = null;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [NQ_VALUE];
+        const expectedCategory = [CATEGORY_VALUE];
+        const expectedSubId = null;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, nq, subId', function () {
+      it('Test buildRequest() - nid, pid, nq, subId', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [NQ]: NQ_VALUE,
           [SUB_ID]: SUB_ID_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [NQ_VALUE];
-        let expectedCategory = [null];
-        let expectedSubId = SUB_ID_VALUE;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [NQ_VALUE];
+        const expectedCategory = [null];
+        const expectedSubId = SUB_ID_VALUE;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, category', function () {
+      it('Test buildRequest() - pid, nid, category', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [null];
-        let expectedCategory = [CATEGORY_VALUE];
-        let expectedSubId = null;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [null];
+        const expectedCategory = [CATEGORY_VALUE];
+        const expectedSubId = null;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, category, subId', function () {
+      it('Test buildRequest() - pid, nid, category, subId', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
           [SUB_ID]: SUB_ID_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [null];
-        let expectedCategory = [CATEGORY_VALUE];
-        let expectedSubId = SUB_ID_VALUE;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [null];
+        const expectedCategory = [CATEGORY_VALUE];
+        const expectedSubId = SUB_ID_VALUE;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, subId', function () {
+      it('Test buildRequest() - pid, nid, subId', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [SUB_ID]: SUB_ID_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [null];
-        let expectedCategory = [null];
-        let expectedSubId = SUB_ID_VALUE;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [null];
+        const expectedCategory = [null];
+        const expectedSubId = SUB_ID_VALUE;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, nq, category, subId', function () {
+      it('Test buildRequest() - pid, nid, nq, category, subId', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [NQ]: NQ_VALUE,
           [CATEGORY]: CATEGORY_VALUE,
           [SUB_ID]: SUB_ID_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [NQ_VALUE];
-        let expectedCategory = [CATEGORY_VALUE];
-        let expectedSubId = SUB_ID_VALUE;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [NQ_VALUE];
+        const expectedCategory = [CATEGORY_VALUE];
+        const expectedSubId = SUB_ID_VALUE;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
-      it('Test buildRequest() - pid, nqName, categoryName, subId', function () {
+      it('Test buildRequest() - pid, nid, nqName, categoryName, subId', function () {
         setUpMocks();
-        let requestParams = {
+
+        const requestParams = {
           [SSP_PLACEMENT_ID]: DATA_PARTNER_PIXEL_ID_VALUE,
+          [SSP_NETWORK_ID]: DATA_PARTNER_NETWORK_ID_VALUE,
           [NQ_NAME]: NQ_NAME_QUERY_PARAM,
           [CATEGORY_NAME]: CATEGORY_NAME_QUERY_PARAM,
           [SUB_ID]: SUB_ID_VALUE,
         };
-        let expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
-        let expectedNq = [NQ_VALUE];
-        let expectedCategory = [CATEGORY_VALUE];
-        let expectedSubId = SUB_ID_VALUE;
+        const expectedPid = DATA_PARTNER_PIXEL_ID_VALUE;
+        const expectedNid = DATA_PARTNER_NETWORK_ID_VALUE;
+        const expectedNq = [NQ_VALUE];
+        const expectedCategory = [CATEGORY_VALUE];
+        const expectedSubId = SUB_ID_VALUE;
 
-        let request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
+        const request = nanoBidAdapter.buildRequests([getBidRequest(requestParams)]);
 
-        assert(request, expectedPid, expectedNq, expectedCategory, expectedSubId);
+        assert(request, expectedPid, expectedNid, expectedNq, expectedCategory, expectedSubId);
+
         tearDownMocks();
       });
       it('Test interpretResponse() length', function () {

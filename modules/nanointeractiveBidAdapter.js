@@ -9,6 +9,7 @@ export const BIDDER_CODE = 'nanointeractive';
 export const END_POINT_URL = 'https://ad.audiencemanager.de';
 
 export const SSP_PLACEMENT_ID = 'pid';
+export const SSP_NETWORK_ID = 'nid';
 export const NQ = 'nq';
 export const NQ_NAME = 'name';
 export const CATEGORY = 'category';
@@ -17,7 +18,7 @@ export const SUB_ID = 'subId';
 export const REF = 'ref';
 export const LOCATION = 'loc';
 
-var nanoPid = '5a1ec660eb0a191dfa591172';
+let nanoPid = '5a1ec660eb0a191dfa591172';
 
 export const spec = {
 
@@ -26,14 +27,13 @@ export const spec = {
 
   isBidRequestValid(bid) {
     const pid = bid.params[SSP_PLACEMENT_ID];
-    return !!(pid);
+    const nid = bid.params[SSP_NETWORK_ID];
+
+    return !!pid || !!nid;
   },
 
   buildRequests(validBidRequests, bidderRequest) {
-    let payload = [];
-    validBidRequests.forEach(
-      bid => payload.push(createSingleBidRequest(bid, bidderRequest))
-    );
+    const payload = validBidRequests.map(bid => createSingleBidRequest(bid, bidderRequest));
     const url = getEndpointUrl() + '/hb';
 
     return {
@@ -43,13 +43,9 @@ export const spec = {
     };
   },
   interpretResponse(serverResponse) {
-    const bids = [];
-    serverResponse.body.forEach(serverBid => {
-      if (isEngineResponseValid(serverBid)) {
-        bids.push(createSingleBidResponse(serverBid));
-      }
-    });
-    return bids;
+    return serverResponse.body
+      .filter(serverBid => isEngineResponseValid(serverBid))
+      .map(serverBid => createSingleBidResponse(serverBid));
   },
   getUserSyncs: function(syncOptions) {
     const syncs = [];
@@ -68,7 +64,6 @@ export const spec = {
     }
     return syncs;
   }
-
 };
 
 function createSingleBidRequest(bid, bidderRequest) {
@@ -78,7 +73,8 @@ function createSingleBidRequest(bid, bidderRequest) {
   nanoPid = bid.params[SSP_PLACEMENT_ID] || nanoPid;
 
   const data = {
-    [SSP_PLACEMENT_ID]: bid.params[SSP_PLACEMENT_ID],
+    [SSP_PLACEMENT_ID]: createSSPPlacementId(bid),
+    [SSP_NETWORK_ID]: createSSPNetworkIdParam(bid),
     [NQ]: [createNqParam(bid)],
     [CATEGORY]: [createCategoryParam(bid)],
     [SUB_ID]: createSubIdParam(bid),
@@ -96,6 +92,14 @@ function createSingleBidRequest(bid, bidderRequest) {
   }
 
   return data;
+}
+
+function createSSPNetworkIdParam(bid) {
+  return bid.params[SSP_NETWORK_ID] ? bid.params[SSP_NETWORK_ID] : null;
+}
+
+function createSSPPlacementId(bid) {
+  return bid.params[SSP_PLACEMENT_ID] ? bid.params[SSP_PLACEMENT_ID] : null;
 }
 
 function createSingleBidResponse(serverBid) {
