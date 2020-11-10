@@ -39,8 +39,8 @@ const specFactory = () => {
     };
 
     if (bidderRequest && bidderRequest.gdprConsent) {
-      data['gdprConsent'] = bidderRequest.gdprConsent.consentString;
-      data['gdprApplies'] = (bidderRequest.gdprConsent.gdprApplies) ? '1' : '0';
+      data.gdprConsent = bidderRequest.gdprConsent.consentString;
+      data.gdprApplies = (bidderRequest.gdprConsent.gdprApplies) ? '1' : '0';
     }
 
     return data;
