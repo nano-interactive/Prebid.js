@@ -14,7 +14,7 @@ Connects to Nano Interactive search retargeting Ad Server for bids.
 
 <br>
 ### Requirements:
-To be able to get identification key (`pid`), please contact us at <br> 
+To be able to get identification key (`nid`), please contact us at <br> 
 `https://www.nanointeractive.com/publishers` <br>
 <br><br><br>
 
@@ -36,7 +36,8 @@ To be able to get identification key (`pid`), please contact us at <br>
 {: .table .table-bordered .table-striped }
 | Name           | Scope    | Description                                      | Example                      |
 | :------------- | :------- | :----------------------------------------------- | :--------------------------- |
-| `pid`          | required | Identification key, provided by Nano Interactive | `'5afaa0280ae8996eb578de53'` |
+| `pid`          | optional | Identification key, provided by Nano Interactive | `'5afaa0280ae8996eb578de53'` |
+| `nid`          | required | Identification key, provided by Nano Interactive | ``                           |
 | `category`     | optional | Contextual taxonomy                              | `'automotive'`               |
 | `categoryName` | optional | Contextual taxonomy (from URL query param)       | `'cat_name'`                 |
 | `nq`           | optional | User search query                                | `'automobile search query'`  |
@@ -48,14 +49,14 @@ The `category` and `categoryName` are mutually exclusive. If you pass both, `cat
 <br>
 The `nq` and `name` are mutually exclusive. If you pass both, `name` takes precedence.
 
-#### Example with only required field `pid`
+#### Example with only required field `nid`
     var adUnits = [{
         code: 'nano-div',
         sizes: [[300, 250], [300,600]],
         bids: [{
             bidder: 'nanointeractive',
             params: {
-                pid: '5afaa0280ae8996eb578de53'
+                nid: '5afaa0280ae8996eb578de53'
             }
         }]
     }];
@@ -67,7 +68,7 @@ The `nq` and `name` are mutually exclusive. If you pass both, `name` takes prece
         bids: [{
             bidder: 'nanointeractive',
             params: {
-                pid: '5afaa0280ae8996eb578de53',
+                nid: '5afaa0280ae8996eb578de53',
                 category: 'automotive',
                 subId: '123'
             }
@@ -81,7 +82,7 @@ The `nq` and `name` are mutually exclusive. If you pass both, `name` takes prece
         bids: [{
             bidder: 'nanointeractive',
             params: {
-                pid: '5afaa0280ae8996eb578de53',
+                nid: '5afaa0280ae8996eb578de53',
                 // Category "automotive" is in the URL like:
                 // https://www....?cat_name=automotive&...
                 categoryName: 'cat_name',
@@ -97,7 +98,7 @@ The `nq` and `name` are mutually exclusive. If you pass both, `name` takes prece
         bids: [{
             bidder: 'nanointeractive',
             params: {
-                pid: '5afaa0280ae8996eb578de53',
+                nid: '5afaa0280ae8996eb578de53',
                 // User searched "automobile search query" (extracted from search text field) 
                 nq: 'automobile search query',
                 subId: '123'
@@ -112,7 +113,7 @@ The `nq` and `name` are mutually exclusive. If you pass both, `name` takes prece
         bids: [{
             bidder: 'nanointeractive',
             params: {
-                pid: '5afaa0280ae8996eb578de53',
+                nid: '5afaa0280ae8996eb578de53',
                 // User searched "automobile search query" and it is in the URL like:
                 // https://www....?search_param=automobile%20search%20query&... 
                 name: 'search_param',
@@ -128,7 +129,7 @@ The `nq` and `name` are mutually exclusive. If you pass both, `name` takes prece
         bids: [{
             bidder: 'nanointeractive',
             params: {
-                pid: '5afaa0280ae8996eb578de53',
+                nid: '5afaa0280ae8996eb578de53',
                 category: 'automotive',
                 nq: 'automobile search query',
                 subId: '123'
@@ -143,7 +144,7 @@ The `nq` and `name` are mutually exclusive. If you pass both, `name` takes prece
         bids: [{
             bidder: 'nanointeractive',
             params: {
-                pid: '5afaa0280ae8996eb578de53',
+                nid: '5afaa0280ae8996eb578de53',
                 categoryName: 'cat_name',
                 name: 'search_param',
                 subId: '123'
