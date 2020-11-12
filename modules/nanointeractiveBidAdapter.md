@@ -37,7 +37,7 @@ To be able to get identification key (`nid`), please contact us at <br>
 | Name           | Scope    | Description                                      | Example                      |
 | :------------- | :------- | :----------------------------------------------- | :--------------------------- |
 | `pid`          | optional | Identification key, provided by Nano Interactive | `'5afaa0280ae8996eb578de53'` |
-| `nid`          | required | Identification key, provided by Nano Interactive | ``                           |
+| `nid`          | required | Identification key, provided by Nano Interactive | `'7abda2289ae1496eac78deaf'`                           |
 | `category`     | optional | Contextual taxonomy                              | `'automotive'`               |
 | `categoryName` | optional | Contextual taxonomy (from URL query param)       | `'cat_name'`                 |
 | `nq`           | optional | User search query                                | `'automobile search query'`  |

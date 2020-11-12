@@ -12,21 +12,24 @@ const NQ_NAME = 'name';
 const CATEGORY = 'category';
 const CATEGORY_NAME = 'categoryName';
 const SUB_ID = 'subId';
-const REF = 'ref';
-const LOCATION = 'loc';
+const REF = 'ref'; const LOCATION = 'loc';
 
 const specFactory = () => {
-  let nanoPid = '5a1ec660eb0a191dfa591172';
+  let nanoNid = null;
+  let nanoPid = null;
 
   const createSingleBidRequest = (bid, bidderRequest) => {
+    // Set these two variables that will be used later in the script
+    // There is probably a better way to do this
+    nanoNid = createSSPNetworkIdParam(bid);
+    nanoPid = createSSPPlacementId(bid);
+
     const location = utils.deepAccess(bidderRequest, 'refererInfo.referer');
     const origin = utils.getOrigin();
 
-    nanoPid = bid.params[SSP_PLACEMENT_ID] || nanoPid;
-
     const data = {
-      [SSP_PLACEMENT_ID]: createSSPPlacementId(bid),
-      [SSP_NETWORK_ID]: createSSPNetworkIdParam(bid),
+      [SSP_PLACEMENT_ID]: nanoPid,
+      [SSP_NETWORK_ID]: nanoNid,
       [NQ]: [createNqParam(bid)],
       [CATEGORY]: [createCategoryParam(bid)],
       [SUB_ID]: createSubIdParam(bid),
@@ -71,6 +74,24 @@ const specFactory = () => {
       currency: serverBid.currency
     };
   }
+
+  const createCookieSyncUrl = (nanoNid, nanoPid) => {
+    const baseUrl = getEndpointUrl() + '/hb/cookieSync';
+
+    if (nanoNid !== null && nanoPid !== null) {
+      return `${baseUrl}?nid=${nanoNid}&pid=${nanoPid}`;
+    }
+
+    if (nanoNid !== null && nanoPid === null) {
+      return `${baseUrl}?nid=${nanoNid}`;
+    }
+
+    if (nanoNid === null && nanoPid !== null) {
+      return `${baseUrl}?pid=${nanoPid}`;
+    }
+
+    return '';
+  };
 
   const createNqParam = bid => {
     return bid.params[NQ_NAME] ? utils.getParameterByName(bid.params[NQ_NAME]) : bid.params[NQ] || null;
@@ -138,19 +159,25 @@ const specFactory = () => {
       .map(serverBid => createSingleBidResponse(serverBid)),
     getUserSyncs: syncOptions => {
       const syncs = [];
-      if (syncOptions.iframeEnabled) {
-        syncs.push({
-          type: 'iframe',
-          url: getEndpointUrl() + '/hb/cookieSync/' + nanoPid
-        });
+
+      const url = createCookieSyncUrl(nanoNid, nanoPid);
+
+      if (url !== '') {
+        if (syncOptions.iframeEnabled) {
+          syncs.push({
+            type: 'iframe',
+            url,
+          });
+        }
+
+        if (syncOptions.pixelEnabled) {
+          syncs.push({
+            type: 'image',
+            url,
+          });
+        }
       }
 
-      if (syncOptions.pixelEnabled) {
-        syncs.push({
-          type: 'image',
-          url: getEndpointUrl() + '/hb/cookieSync/' + nanoPid
-        });
-      }
       return syncs;
     }
   };
